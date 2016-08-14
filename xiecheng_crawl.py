@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-#-*-coding=utf-8-*-
-
 import re
 import json
 import time
@@ -13,15 +10,15 @@ from user_agents import agents
 
 session = requests.session()
 session.headers = {"hearders":random.choice(agents)}
-
+cookie = {"Cookie":'换成你自己的cookie'
 def get_flight_info(from_city,to_city,day_time):
     try:
         url = "http://flights.ctrip.com/domesticsearch/search/SearchFirstRouteFlights?DCity1" \
               "="+str(from_city)+"&ACity1="+str(to_city)+"&SearchType=S&DDate1="+str(day_time)+\
               "&IsNearAirportRecommond=0"
         print(url)
-        data = session.get(url,timeout = 30).text
-        sleeptime = (1, 2, 3, 4, 10, 20, 1, 2, 1, 3, 1, 4, 50, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2)
+        data = session.get(url,timeout = 30,cookies = cookie).text
+        sleeptime = (1, 2, 3, 4, 5,6, 1, 2, 1, 3, 1, 4)
         time.sleep(random.choice(sleeptime))
         lowest_price_list = json.loads(data)['lps']
         fis = json.loads(data)['fis']
@@ -63,15 +60,11 @@ def get_flight_url():
         days = 1
         crawl_num = 1
         while days<90:
-            if crawl_num >10:
-                crawl_num -= 10
-                print("please wait for moment")
-                time.sleep(60)
             today = datetime.date.today()
             next_day = datetime.date(today.year, today.month,today.day) + datetime.timedelta(days)
             next_day = '{}-{}-{}'.format(next_day.year,next_day.month,next_day.day)
             print("出发日期：",next_day)
-            sleeptime = (1, 2, 3, 4, 10, 20, 1, 2, 1, 3, 1, 4, 50, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2)
+            sleeptime = (1, 2, 3, 4,8, 5, 1, 2, 1, 3, 1, 4)
             time.sleep(random.choice(sleeptime))
             html = session.get(url,timeout = 30).text
             crawl_num += 1
@@ -86,7 +79,7 @@ def get_flight_url():
                     print(from_city,to_city)
                     get_flight_info(from_city,to_city,next_day)
                     crawl_num += 1
-                    time.sleep(10)
+                    time.sleep(20)
             days += 1
 
 get_flight_url()
