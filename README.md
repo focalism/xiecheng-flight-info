@@ -11,3 +11,5 @@ http://flights.ctrip.com/domesticsearch/search/SearchFirstRouteFlights?DCity1=nk
 可以得到航班的json数据，然后解析数据就行了。
 
 但是携程的反爬也很厉害，请求太频繁就会限制ip，所以请求不能太快。
+
+2016/8/14修改：添加登陆cookie。
